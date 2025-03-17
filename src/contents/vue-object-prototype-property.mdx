@@ -1,0 +1,60 @@
+---
+title: '关于在Object.prototype上添加属性后页面报错的问题'
+description: '关于在Object.prototype上添加属性后页面报错的问题'
+createdAt: '2021-06-13'
+tags: ['Vue.js', 'JavaScript']
+---
+
+之前有个拖拽修改json数组中数据顺序的需求, 修改顺序做完了, 但是拖拽的时候由于组件的key是index, 导致组件状态没有跟着拖拽走, 便想找一个实用的方法.  
+最直接的想法当然是给数据加一个uuid, 可是对于字符串数组, 添加uuid的话会涉及到数组内数据类型的变化, 比如从  
+``` js
+['first', 'second', 'third'];
+```
+变为  
+``` js
+[
+  { value: 'first', uuid: 'xxxx-xxxx-xxxx' },
+  { value: 'second', uuid: 'yyyy-yyyy-yyyy' },
+  { value: 'third', uuid: 'zzzz-zzzz-zzzz' }
+];
+```
+问题是很麻烦, 比如获取数据后添加字段, 提交数据时再删除字段.  
+后来不知怎的就想到了原型链, 本着万物皆Object的思想, 试了下在Object.prototype上添加一个uuid方法, 获取不重复的uuid. 虽然仔细想想每次生成的uuid都是不一样的, 和直接把uuid方法放到key里面没有什么区别, 但还是获得了意外的收获.  
+就是一旦在Object.prototype里加了属性/方法, vue就会报错.  
+``` js
+Object.prototype.a = 1;
+```
+看了下报错信息是源码部分出了问题, 应该是某个方法受到了影响. 查看vuedevtools发现所有的组件的computed里都多出了一个`a: 1`, 有些有props的组件在props里也会多出个`a: 1`. 通过vue的相关源码可以看到是通过for...in来获取props的值的:  
+``` js
+function initProps(vm, propsOpt) {
+  // 这是父组件给子组件传入的 props 的具体值
+  const propsData = vm.$options.propsData || {};
+  const props = vm._props = {};
+  for (const key in propsOpt) {
+    // 给 props 的 key 设置 响应式
+    defineReactive(props, key, propsData[key]);
+    if (!(key in vm)) {
+      // 转接访问，访问 vm 属性，转到访问 vm._props 属性
+      proxy(vm, '_props', key);
+    }
+  }
+}
+```
+而for...in会遍历出对象的所有可枚举属性(enumerable: true), 直接定义的属性enumerable默认为true, 只有通过[Object.create()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/create)和[Object.defineProperty()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)才可以在添加字段时修改enumerable属性.  
+``` js
+Object.defineProperty(obj, 'a', {
+  value: 1, // 设置值
+  writable: true, // 值可以被修改
+  enumerable: true, // 可以被枚举
+  configurable: true // 属性可以被删除、特性可以修改
+});
+```
+因此在任意页面使用Object.prototype.x = xxx之后, 凡是遇到for...in的地方, 都会因为出现了不正常的值而报错, 解决方法就是设置enumerable为false:  
+``` js
+Object.defineProperty(Object.prototype, 'a', {
+  value: 1,
+  enumerable: false
+});
+```
+当然还是不建议往原型链里加东西, 说不定哪里会出现诡异的问题. ~~我只在Date里加了个格式化日期的方法, 毕竟手动格式化太痛苦了~~  
+至于最开始提到的问题, 如果只有修改数据的方法的话那还是先放着吧.

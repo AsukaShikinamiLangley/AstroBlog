@@ -1,0 +1,67 @@
+---
+title: 'Windows11右键菜单中添加在VSCode中打开'
+description: ''
+createdAt: '2023-11-07'
+tags: ['VSCode', 'Windows11', 'JavaScript']
+---
+
+> 2025-01-05更新  
+> https://github.com/BartoszRojek/CodeModernExplorerMenu  
+> github上有人将该功能集成到MSI安装程序中(未验证安全性!)  
+> 对于未安装到默认路径的VSCode用户, 可以参考[该方法](https://github.com/microsoft/vscode/issues/204696#issuecomment-2569211983)
+> 
+
+> 本文翻译自https://github.com/microsoft/vscode/issues/183297#issuecomment-1594350702
+
+对于任何想在VSCode正式在稳定版中支持该功能之前手动启用右键上下文菜单支持的人:
+
+- 声明: 这些方法是**非官方的**且微软或VSCode的开发者**不**提供任何形式的支持. 虽然以下指南已经过我的测试测试且适用于我, 但我不能保证它也适合您. 我***也不对***其可能造成的任何损害负责.
+
+1. 在[这里](https://github.com/microsoft/vscode-explorer-command/releases/)获取最新版本的VSCode右键菜单扩展  
+截止至文章发表的时间, 最新的版本号是`3.0.4`  
+请确认你下载了正确的文件(`code_explorer_<arch>.zip`)  
+2. 将下载的文件解压缩至`<vscode安装路径>\shell\`, 该文件夹不是标准VSCode安装的一部分, 因此需要手动创建. 对于我来说VSCode的安装路径是`C:\Users\<username>\AppData\Local\Programs\Microsoft VS Code\`.
+3. 解压缩`<vscode安装路径>\shell\code_explorer_x64.appx`文件中的全部三个`.xml`文件至同一文件夹.  
+你可以使用7-Zip打开这个压缩文件.  
+你可能会尝试使用其他的解压缩程序, 但是`.appx`文件和标准的zip文件有略微的不同, 祝你好运.
+4. 你的文件结构现在如下:
+``` shell
+<vscode_安装路径>
+|-bin/
+|-...
+|-shell/
+| |-[Content_Types].xml
+| |-AppxBlockMap.xml
+| |-AppxManifest.xml
+| |-code_explorer_command.dll
+| L-code_explorer_x64.appx
+|-...
+|-Code.exe
+L-...
+```
+5. 使用文本编辑器打开`<vscode安装路径>\shell\AppxManifest.xml`, 找到并编辑这行代码:
+``` shell
+# 将两个`Microsoft Corporation`替换为你喜欢的任意内容.  
+# 这样做是因为Windows会阻止你安装Microsoft发布的未签名应用程序.  
+Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+```
+6. 打开注册表编辑器(`regedit.exe`), 在`HKEY_CURRENT_USER\Software\Classes`目录下创建一个名为`VSCodeContextMenu`的项.
+如果你想给使用该计算机的所有用户启用右键菜单扩展也可以把这个项创建在`HKEY_LOCAL_MACHINE\Software\Classes`目录下
+7. 在刚刚创建的`HKEY_CURRENT_USER\Software\Classes\VSCodeContextMenu`目录下, 新建一个字符串值, 修改该字符串的名称为`Title`, 数据为`在VSCode中打开`.
+8. 在windows的设置面板中开启开发人员模式(设置>隐私和安全性>开发者选项>开发人员模式), 从而可以从已解压的文件中安装程序.
+9. 管理员模式启动Powershell, 切换至`<vscode安装路径>\shell\`, 运行下方的命令并等待其完成
+``` shell
+Add-AppxPackage -Path "<vscode_install_path>\shell\AppxManifest.xml" -Register -ExternalLocation "<vscode_install_path>\shell\"
+```
+10. 您现在可以关闭开发人员模式.
+11. 在任务管理器中重启Windows资源管理器(`explorer.exe`). 完毕.
+
+PS. 如果想卸载右键菜单扩展, 管理员模式启动PowerShell并运行下方的命令以获得扩展程序的包的全名(`PackageFullName`)
+``` shell
+Get-AppxPackage Microsoft.VSCode
+```
+然后执行下方代码以卸载扩展程序
+``` shell
+Remove-AppxPackage <包的全名>
+```
+`Remove-AppxPackage`命令大概需要执行一分钟(对于我来说). 在执行完毕后你需要重启资源管理器, 移除注册表值, 删除`<VSCode安装路径>\shell\`文件夹
