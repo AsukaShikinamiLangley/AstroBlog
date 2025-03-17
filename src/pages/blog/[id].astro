@@ -1,5 +1,5 @@
 ---
-import Layout from '@/layouts/Layout.astro';
+import BlogLayout from '@/layouts/BlogLayout.astro';
 import Prose from '@/components/Prose.astro'
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
@@ -16,9 +16,9 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<Layout>
+<BlogLayout>
   <Prose>
     <h1>{post.data.title}</h1>
     <Content />
   </Prose>
-</Layout>
+</BlogLayout>
