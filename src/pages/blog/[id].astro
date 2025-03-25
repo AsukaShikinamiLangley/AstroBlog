@@ -1,6 +1,7 @@
 ---
 import BlogLayout from '@/layouts/BlogLayout.astro';
 import Prose from '@/components/Prose.astro'
+import Pre from '@/components/mdx-components/Pre.astro'
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
 
@@ -19,6 +20,8 @@ const { Content } = await render(post);
 <BlogLayout>
   <Prose transition:name={`post-${post.id}`}>
     <h1 transition:name={`post-title-${post.id}`}>{post.data.title}</h1>
-    <Content/>
+    <Content components={{
+      pre: Pre
+    }}/>
   </Prose>
 </BlogLayout>
