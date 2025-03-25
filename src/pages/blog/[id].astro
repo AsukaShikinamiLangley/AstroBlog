@@ -17,8 +17,8 @@ const { Content } = await render(post);
 ---
 
 <BlogLayout>
-  <Prose>
-    <h1>{post.data.title}</h1>
-    <Content />
+  <Prose transition:name={`post-${post.id}`}>
+    <h1 transition:name={`post-title-${post.id}`}>{post.data.title}</h1>
+    <Content/>
   </Prose>
 </BlogLayout>

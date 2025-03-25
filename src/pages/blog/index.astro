@@ -1,15 +1,16 @@
 ---
-import Layout from '@/layouts/Layout.astro'
 import { getCollection } from "astro:content";
+import BlogLayout from '@/layouts/BlogLayout.astro'
 import PostItem from '@/components/PostItem.astro';
+
 const posts: any[] = (await getCollection('blog')).sort(
 	(a, b) => b.data.createdAt.valueOf() - a.data.createdAt.valueOf(),
 );
 ---
-<Layout>
-  <div class="flex flex-col gap-4 max-w-2xl mx-auto py-10">
+<BlogLayout>
+  <div class="flex flex-col gap-4 max-w-3xl mx-auto py-10">
     {posts.map(post => (
       <PostItem post={post} />
     ))}
   </div>
-</Layout>
+</BlogLayout>

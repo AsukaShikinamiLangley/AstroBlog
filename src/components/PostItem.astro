@@ -4,7 +4,7 @@ import FormattedDate from '@/components/FormattedDate.astro';
 const { post } = Astro.props;
 ---
     <a href={`/blog/${post.id}`}>
-      <div class="flex relative h-fit">
+      <div class="flex relative h-fit" transition:name={`post-${post.id}`}>
         <div
           class="side-border w-4 self-stretch shrink-0"
           style={{
@@ -30,7 +30,7 @@ const { post } = Astro.props;
             'border-gray-200'
           ]}
         >
-          <div class="item-name text-lg font-bold">{post.data.title}</div>
+          <div class="item-name text-lg font-bold" transition:name={`post-title-${post.id}`}>{post.data.title}</div>
           <div class="item-created-at text-sm text-gray-500">
             <FormattedDate date={post.data.createdAt} />
           </div>
