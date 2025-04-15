@@ -15,12 +15,15 @@ export const getStaticPaths = (async () => {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const githubUrl = import.meta.env.PUBLIC_GITHUB_URL;
 ---
 
 <BlogLayout>
   <Prose transition:name={`post-${post.id}`}>
     <h1 transition:name={`post-title-${post.id}`}>{post.data.title}</h1>
-    <Content components={{
+    <Content
+      githubUrl={githubUrl}
+     components={{
       pre: Pre
     }}/>
   </Prose>
