@@ -2,6 +2,7 @@
 import BlogLayout from '@/layouts/BlogLayout.astro';
 import Prose from '@/components/Prose.astro'
 import Pre from '@/components/mdx-components/Pre.astro'
+import GithubCard from '@/components/mdx-components/GithubCard.astro'
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
 
@@ -23,8 +24,10 @@ const githubUrl = import.meta.env.PUBLIC_GITHUB_URL;
     <h1 transition:name={`post-title-${post.id}`}>{post.data.title}</h1>
     <Content
       githubUrl={githubUrl}
-     components={{
-      pre: Pre
-    }}/>
+      components={{
+        pre: Pre,
+        GithubCard: GithubCard
+      }}
+    />
   </Prose>
 </BlogLayout>
