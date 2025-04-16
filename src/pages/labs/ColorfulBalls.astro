@@ -1,0 +1,108 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout>
+  <div class="w-full h-full flex items-center justify-center">
+    <!-- 768px以上时，canvas宽度为500px，高度为300px, 否则为100% -->
+    <canvas id="canvas" class="md:w-[500px] md:h-[300px] w-full h-full shadow-md">
+      当前浏览器不支持canvas
+    </canvas>
+  </div>
+</Layout>
+
+<script>
+  // lodash 的 random 方法
+  const random = (min: number, max: number): number => {
+    if (max == null) {
+      max = min;
+      min = 0;
+    }
+    return min + Math.floor(Math.random() * (max - min + 1));
+  };
+  //1.获取画布
+  const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+  console.log(screenWidth, screenHeight);
+  canvas.width = screenWidth > 768 ? 500 : screenWidth;
+  canvas.height = screenWidth > 768 ? 300 : screenHeight;
+  canvas.style.backgroundColor = '#000';
+
+  //2.创建类
+  interface Ball {
+    x: number;
+    y: number;
+    color: string;
+    r: number;
+  }
+  class Ball implements Ball {
+    // 构造器
+    constructor(posX: number, posY: number, color: string) {
+      this.x = posX;
+      this.y = posY;
+      this.color = color;
+      this.r = 40; //半径radius
+    }
+    // 绘制
+    render() {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  //3.移动的小球类
+  interface MoveBall extends Ball {
+    dX: number;
+    dY: number;
+    dR: number;
+  }
+  class MoveBall extends Ball implements MoveBall {
+    constructor(posX: number, posY: number, color: string) {
+      super(posX, posY, color); //调用父类属性
+
+      //量的变化
+      this.dX = random(-5, 5); //dX:deltaX,x的增量;
+      this.dY = random(-5, 5);
+      this.dR = random(1, 3);
+    }
+
+    upDate() {
+      this.x += this.dX;
+      this.y += this.dY;
+      this.r -= this.dR;
+      if (this.r < 0) {
+        this.r = 0;
+      }
+    }
+  }
+
+  //4.实例化
+  let ballArr: MoveBall[] = [];
+  let colorArr = ['red', 'green', 'yellow', 'purple', 'blue', 'pink', 'orange'];
+
+  //5.监听鼠标移动
+  canvas.addEventListener('mousemove', function (e) {
+    ballArr.push(new MoveBall(e.offsetX, e.offsetY, colorArr[random(0, colorArr.length - 1)]));
+    // console.log(ballArr);
+  });
+
+  //6.开启定时器
+  setInterval(function () {
+    //清屏
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //绘制
+    for (let i = 0; i < ballArr.length; i++) {
+      ballArr[i].render(); //渲染
+      ballArr[i].upDate(); //更新
+      if (ballArr[i].r === 0) {
+        ballArr.splice(i, 1);
+      }
+    }
+  }, 50);
+</script>
