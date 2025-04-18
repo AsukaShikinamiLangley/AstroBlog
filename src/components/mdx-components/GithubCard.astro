@@ -28,7 +28,9 @@ const repoData = await fetch(`https://api.github.com/repos/${repo}`).then(res =>
     // https://tailwindcss.com/docs/detecting-classes-in-source-files#dynamic-class-names
     previewUrl && (
       <div
-        class:list={['preview-iframe w-full border border-gray-200 rounded-lg shadow-md']}
+        class:list={[
+          'preview-iframe w-full border border-gray-200 rounded-lg shadow-md overflow-hidden',
+        ]}
         style={`aspect-ratio: ${aspectRatio}`}
       >
         <iframe src={previewUrl} class="w-full h-full" />
