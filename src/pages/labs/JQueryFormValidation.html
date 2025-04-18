@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="/resources/jq-form-validation/css/bootstrap.css">
+  <link rel="stylesheet" href="/resources/jq-form-validation/css/normalize.css">
+  <link rel="stylesheet" href="/resources/jq-form-validation/css/main.css">
+</head>
+
+<body>
+  <div class="container container-sm">
+    <div class="header">
+      <h1>注册页</h1>
+    </div>
+    <div class="form">
+      <form action="" id="signup">
+        <div class="input-container">
+          <label for="">姓名</label>
+          <input data-rule='maxlength:5|minlength:1' name='name' type="text" class="form-control">
+          <div id='name-input-error' class="input-error">姓名格式有误</div>
+        </div>
+        <div class="input-container">
+          <label for="">用户名</label>
+          <input data-rule='pattern:"^[a-zA-Z0-9]*$"|maxlength:18|minlength:4' name='username' type="text"
+            class="form-control">
+          <!-- *表示可以最低是一个字符,+表示一个字符以上 pattern: '^[a-zA-Z0-9]*$'           -->
+          <div id='username-input-error' class="input-error">用户名格式有误</div>
+        </div>
+        <div class="input-container">
+          <label for="">年龄</label>
+          <input data-rule='min:18' name='age' type="text" class="form-control">
+          <div id='age-input-error' class="input-error">未满18禁止注册</div>
+        </div>
+        <div class="input-container">
+          <label for="">密码</label>
+          <input data-rule='maxlength:64|minlength:6' name='password' type="password" class="form-control">
+          <div id='password-input-error' class="input-error">密码长度应为6-64位</div>
+        </div>
+        <div class="input-container">
+          <label for="">自我介绍</label>
+          <input data-rule='maxlength:1024|required:false' name='intro' type="text" class="form-control">
+          <div id='intro-input-error' class="input-error">自我介绍过长</div>
+        </div>
+        <button type="submit" class="btn btn-primary button-control">提交</button>
+      </form>
+    </div>
+  </div>
+  <script src="/resources/jq-form-validation/js/jquery.js" charset="utf-8"></script>
+  <script src="/resources/jq-form-validation/js/validator.js" charset="utf-8"></script>
+  <script src="/resources/jq-form-validation/js/input.js" charset="utf-8"></script>
+  <script src="/resources/jq-form-validation/js/main.js" charset="utf-8"></script>
+</body>
+
+</html>
