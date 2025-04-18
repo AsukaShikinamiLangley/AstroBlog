@@ -5,7 +5,9 @@ createdAt: '2018-01-28'
 tags: ['ES6', '面向对象', 'JavaScript']
 ---
 
-<GithubCard repo="toviac/colorful-balls" previewUrl="/labs/ColorfulBalls" />
+<GithubCard repo="toviac/colorful-balls" preview={{
+  url: '/labs/ColorfulBalls',
+}} />
 有一段时间没有更新了, 前几天学习ES6的时候跟着教程做了个绚丽小球. 这个项目蛮简单的, 主要思路就是创建一个小球类`class Ball{}`以及子类`class MoveBall{}`, 通过监听鼠标移动在canvas上绘制随机颜色的小球, 并向随机方向移动.  
 #### 一.创建小球类
 在这里我们创建一个小球类`Ball`, 拥有位置, 颜色, 半径三个属性以及一个绘制方法`render()`.

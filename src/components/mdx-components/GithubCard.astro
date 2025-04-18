@@ -1,5 +1,6 @@
 ---
-const { repo, previewUrl } = Astro.props;
+const { repo, preview } = Astro.props;
+const { url: previewUrl, aspectRatio = '16/9' } = preview;
 const repoData = await fetch(`https://api.github.com/repos/${repo}`).then(res => res.json());
 ---
 
@@ -23,8 +24,13 @@ const repoData = await fetch(`https://api.github.com/repos/${repo}`).then(res =>
     {repoData.license && <span class="text-sm text-gray-500">{repoData.license?.key}</span>}
   </div>
   {
+    // tailwindcss不能使用props创建形如'aspect-[${aspectRatio}]'的动态类名
+    // https://tailwindcss.com/docs/detecting-classes-in-source-files#dynamic-class-names
     previewUrl && (
-      <div class="preview-iframe w-full aspect-video border border-gray-200 rounded-lg shadow-md">
+      <div
+        class:list={['preview-iframe w-full border border-gray-200 rounded-lg shadow-md']}
+        style={`aspect-ratio: ${aspectRatio}`}
+      >
         <iframe src={previewUrl} class="w-full h-full" />
       </div>
     )
