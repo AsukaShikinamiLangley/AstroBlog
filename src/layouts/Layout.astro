@@ -1,28 +1,35 @@
 ---
 import { ClientRouter } from 'astro:transitions';
-import '@/styles/global.css'
+import '@/styles/global.css';
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<ClientRouter />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/FOT-MatissePro-EB.otf" as="font" type="font/opentype" />
+    <meta name="generator" content={Astro.generator} />
+    <ClientRouter />
+    <title>Astro Basics</title>
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 
 <style is:global>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  @font-face {
+    font-family: 'Matisse-EB';
+    src: url('/fonts/FOT-MatissePro-EB.otf') format('opentype');
+    /* block: 字体加载前不显示文字 */
+    font-display: block;
+  }
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
 </style>

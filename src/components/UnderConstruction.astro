@@ -1,0 +1,50 @@
+---
+
+---
+
+<div class="w-full h-full flex justify-center items-center bg-black/80">
+  <div class="warning-box w-lg shadow-md text-red-500 flex flex-col items-center">
+    <div class="text-center text-[150px] leading-[1] font-bold">建設中</div>
+    <div class="text-center text-4xl leading-loose font-bold tracking-tighter mt-4 scale-y-200">
+      UNDER CONSTRUCTION
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes slide-left {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: -50px 0; /* 向左移动一个周期的距离 */
+    }
+  }
+  .warning-box {
+    font-family: 'Matisse-EB';
+    position: relative;
+    padding: 70px 0;
+    &::before,
+    &::after {
+      /* animation: slide-left 2s linear infinite; */
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      background: repeating-linear-gradient(
+        120deg,
+        var(--color-amber-500) 0px,
+        var(--color-amber-500) 20px,
+        transparent 20px,
+        transparent 40px
+      );
+    }
+    &::before {
+      top: 0;
+    }
+    &::after {
+      bottom: 0;
+    }
+  }
+</style>
