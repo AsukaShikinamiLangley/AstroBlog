@@ -22,7 +22,9 @@ import '@/styles/global.css';
 <style is:global>
   @font-face {
     font-family: 'Matisse-EB';
-    src: url('/fonts/FOT-MatissePro-EB.otf') format('opentype');
+    src:
+      url('/fonts/min/FOT-MatissePro-EB.ttf') format('truetype'),
+      url('/fonts/FOT-MatissePro-EB.otf') format('opentype');
     /* block: 字体加载前不显示文字 */
     font-display: block;
   }
