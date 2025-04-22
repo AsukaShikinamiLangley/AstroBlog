@@ -4,10 +4,10 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build:astro": "astro build",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "build": "astro build && tsx src/scripts/optimize-fonts.ts"
+    "build:font": "astro build && tsx src/scripts/optimize-fonts.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.4",
