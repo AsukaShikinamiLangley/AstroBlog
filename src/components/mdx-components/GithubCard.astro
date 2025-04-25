@@ -1,5 +1,5 @@
 ---
-const { repo, preview } = Astro.props;
+const { repo, preview = {} } = Astro.props;
 const { url: previewUrl, aspectRatio = '16/9' } = preview;
 const repoData = await fetch(`https://api.github.com/repos/${repo}`).then(res => res.json());
 ---
