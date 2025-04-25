@@ -1,7 +1,9 @@
 ---
 const { repo, preview = {} } = Astro.props;
 const { url: previewUrl, aspectRatio = '16/9' } = preview;
-const repoData = await fetch(`https://api.github.com/repos/${repo}`).then(res => res.json());
+const githubUsername = import.meta.env.PUBLIC_GITHUB_USERNAME;
+const repoAddr = repo.replace('@github', githubUsername);
+const repoData = await fetch(`https://api.github.com/repos/${repoAddr}`).then(res => res.json());
 ---
 
 <div class="github-card w-full rounded-lg border border-gray-200 p-4 flex flex-col gap-2">
