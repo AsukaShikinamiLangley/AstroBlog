@@ -21,7 +21,11 @@ const repoData = await fetch(`https://api.github.com/repos/${repoAddr}`).then(re
         <div class="flex items-center gap-2">
           <span class="text-sm text-gray-500">{repoData.stargazers_count || 0} stars</span>
           <span class="text-sm text-gray-500">{repoData.forks_count || 0} forks</span>
-          {repoData.license && <span class="text-sm text-gray-500">{repoData.license?.key}</span>}
+          {
+            repoData.license && (
+              <span class="text-sm text-gray-500">{repoData.license?.spdx_id}</span>
+            )
+          }
         </div>
       </div>
     </div>
