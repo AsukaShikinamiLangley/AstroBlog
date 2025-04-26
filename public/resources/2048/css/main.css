@@ -4,6 +4,18 @@
   user-select: none;
   cursor: default;
 }
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+}
+@media (max-width: 768px) {
+  body.iframe-active {
+    outline: 5px dashed #bbada0;
+    outline-offset: -5px;
+    border-radius: 8px;
+  }
+}
 
 p {
   color: #776e65;
@@ -31,7 +43,8 @@ button:focus {
 
 .blog-content {
   width: 500px;
-  margin: 0 auto;
+  margin: 0px auto;
+  padding: 20px 0;
 }
 
 h1.title {

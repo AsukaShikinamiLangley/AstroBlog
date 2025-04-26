@@ -74,5 +74,16 @@
   <script src="/resources/2048/js/keyboard-monitor.js"></script>
   <script src="/resources/2048/js/main.js"></script>
 </body>
+<script>
+  window.addEventListener('focus', () => {
+    console.log('iframe 获得焦点（激活）');
+    document.body.classList.add('iframe-active');
+  });
+
+  window.addEventListener('blur', () => {
+    console.log('iframe 失去焦点（未激活）');
+    document.body.classList.remove('iframe-active');
+  });
+</script>
 
 </html>
