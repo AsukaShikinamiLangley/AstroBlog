@@ -15,10 +15,12 @@ const repoData = await fetch(`https://api.github.com/repos/${repoAddr}`).then(re
         class="my-0! w-10 h-10 rounded-full"
       />
       <div class="h-12 flex flex-col justify-between">
-        <div class="text-lg font-bold">{repoData.full_name}</div>
+        <div class="text-lg font-bold">
+          {(repoAddr || repoData.full_name).split('/').join(' / ')}
+        </div>
         <div class="flex items-center gap-2">
-          <span class="text-sm text-gray-500">{repoData.stargazers_count} stars</span>
-          <span class="text-sm text-gray-500">{repoData.forks_count} forks</span>
+          <span class="text-sm text-gray-500">{repoData.stargazers_count || 0} stars</span>
+          <span class="text-sm text-gray-500">{repoData.forks_count || 0} forks</span>
           {repoData.license && <span class="text-sm text-gray-500">{repoData.license?.key}</span>}
         </div>
       </div>
