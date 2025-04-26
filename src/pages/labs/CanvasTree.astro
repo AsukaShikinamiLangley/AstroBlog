@@ -1,0 +1,21 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import CanvasTreeComponent from '@/components/CanvasTree.vue';
+---
+
+<Layout>
+  <div class="page-wrapper">
+    <CanvasTreeComponent client:load />
+  </div>
+</Layout>
+
+<style>
+  .page-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
