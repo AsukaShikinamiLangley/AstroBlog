@@ -19,14 +19,20 @@ watch(selectedRole, (newVal, oldVal) => {
 
 <template>
   <fieldset class="role-selector">
-    <input type="radio" id="platform" name="role" value="platform" v-model="selectedRole" />
-    <label for="platform">Platform</label>
-    <input type="radio" id="operator" name="role" value="operator" v-model="selectedRole" />
-    <label for="operator">Operator</label>
-    <input type="radio" id="shop" name="role" value="shop" v-model="selectedRole" />
-    <label for="shop">Shop</label>
+    <span class="selector-item">
+      <input type="radio" id="platform" name="role" value="platform" v-model="selectedRole" />
+      <label for="platform">Platform</label>
+    </span>
+    <span class="selector-item">
+      <input type="radio" id="operator" name="role" value="operator" v-model="selectedRole" />
+      <label for="operator">Operator</label>
+    </span>
+    <span class="selector-item">
+      <input type="radio" id="shop" name="role" value="shop" v-model="selectedRole" />
+      <label for="shop">Shop</label>
+    </span>
   </fieldset>
-  <canvas id="canvas"></canvas>
+  <canvas id="canvas" style="width: 646px; height: 300px"></canvas>
 </template>
 
 <style scoped>
@@ -34,6 +40,16 @@ watch(selectedRole, (newVal, oldVal) => {
   display: flex;
   gap: 10px;
   padding: 10px;
+  .selector-item {
+    display: flex;
+    align-items: center;
+    label {
+      padding-left: 5px;
+    }
+    * {
+      cursor: pointer;
+    }
+  }
 }
 #canvas {
   transform: scale(0.75);
