@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>2048</title>
+  <link rel="stylesheet" href="/resources/2048/css/bootstrap.css">
+  <link rel="stylesheet" href="/resources/2048/css/main.css">
+</head>
+
+<body>
+  <div class="blog-content">
+    <div class="heading">
+      <h1 class="title">2048</h1>
+      <div class="score-container">
+        SCORE
+        <div id="score"></div>
+      </div>
+    </div>
+    <div class="above-game">
+      <!-- <p class="game-intro">Use arrow button to move the tiles!</p> -->
+      <div class="game-intro">
+        <p>Join the numbers and get to the
+          <strong>2048 tile!</strong>
+        </p>
+      </div>
+      <button class="btn new-game" onclick="init()">New Game</button>
+
+      <div class="how-to-play">
+        <p style="font-size:17px">
+          <strong style="color:orangered">FOCUS THE FRAME</strong> and use your arrow keys to
+          move
+          the tiles. When two tiles with the same number
+          touch,
+          they merge into one!
+        </p>
+      </div>
+    </div>
+    <div class="game-container">
+      <div class="grid-container">
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+      </div>
+      <div class="tile-container">
+      </div>
+    </div>
+  </div>
+
+  <script src="/resources/2048/js/jquery.js"></script>
+  <script src="/resources/2048/js/keyboard-monitor.js"></script>
+  <script src="/resources/2048/js/main.js"></script>
+</body>
+
+</html>
