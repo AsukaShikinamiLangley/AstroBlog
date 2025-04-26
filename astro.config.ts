@@ -18,4 +18,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  // Remove trailing slashes from URLs
+  trailingSlash: 'never',
 });
