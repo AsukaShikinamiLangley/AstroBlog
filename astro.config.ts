@@ -18,4 +18,20 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  experimental: {
+    fonts: [
+      {
+        provider: 'local',
+        name: 'Matisse-EB',
+        cssVariable: '--font-matisse-eb',
+        variants: [
+          {
+            style: 'normal',
+            weight: '700',
+            src: ['./src/assets/fonts/FOT-MatissePro-EB.woff2'],
+          },
+        ],
+      },
+    ],
+  },
 });

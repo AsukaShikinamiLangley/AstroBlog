@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+import { Font } from 'astro:assets';
 import '@/styles/global.css';
 ---
 
@@ -9,13 +10,7 @@ import '@/styles/global.css';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link
-      rel="preload"
-      href="/fonts/FOT-MatissePro-EB.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+    <Font cssVariable="--font-matisse-eb" preload />
     <meta name="generator" content={Astro.generator} />
     <ClientRouter />
     <title>Astro Basics</title>
@@ -26,12 +21,6 @@ import '@/styles/global.css';
 </html>
 
 <style is:global>
-  @font-face {
-    font-family: 'Matisse-EB';
-    src: url('/fonts/FOT-MatissePro-EB.woff2') format('woff2');
-    /* block: 字体加载前不显示文字 */
-    font-display: block;
-  }
   html,
   body {
     margin: 0;
