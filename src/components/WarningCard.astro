@@ -1,12 +1,13 @@
 ---
-
+// warning page
+const { title = '建設中', description = 'UNDER CONSTRUCTION' } = Astro.props;
 ---
 
 <div class="w-full h-full flex justify-center items-center bg-black/80">
   <div class="warning-box w-lg shadow-md text-red-500 flex flex-col items-center">
-    <div class="text-center text-[150px] leading-[1] font-bold">建設中</div>
+    <div class="text-center text-[150px] leading-[1] font-bold">{title}</div>
     <div class="text-center text-4xl leading-loose font-bold tracking-tighter mt-4 scale-y-200">
-      UNDER CONSTRUCTION
+      {description}
     </div>
   </div>
 </div>
