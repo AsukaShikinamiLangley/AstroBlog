@@ -20,4 +20,7 @@ export default defineConfig({
   },
   // Remove trailing slashes from URLs
   trailingSlash: 'never',
+  build: {
+    format: 'preserve',
+  },
 });
