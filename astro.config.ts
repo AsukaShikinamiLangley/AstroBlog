@@ -18,6 +18,10 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  prefetch: {
+    // 预获取策略: 'tap' | 'hover' | 'viewport' | 'load'
+    defaultStrategy: 'load',
+  },
   experimental: {
     fonts: [
       {
