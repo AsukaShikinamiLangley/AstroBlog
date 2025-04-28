@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, watch, onMounted } from 'vue';
-import Tree from '../../public/resources/canvas-tree/tree.js';
-import { treeData } from '../../public/resources/canvas-tree/treeData.js';
+import Tree from '/public/resources/canvas-tree/tree.js';
+import { treeData } from '/public/resources/canvas-tree/treeData.js';
 
 const selectedRole = ref('platform');
 const tree = ref<Tree | null>(null);
