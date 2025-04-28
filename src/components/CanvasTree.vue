@@ -32,7 +32,7 @@ watch(selectedRole, (newVal, oldVal) => {
       <label for="shop">Shop</label>
     </span>
   </fieldset>
-  <canvas id="canvas" style="width: 646px; height: 300px"></canvas>
+  <canvas id="canvas" style="width: 500px"></canvas>
 </template>
 
 <style scoped>
@@ -50,8 +50,5 @@ watch(selectedRole, (newVal, oldVal) => {
       cursor: pointer;
     }
   }
-}
-#canvas {
-  transform: scale(0.75);
 }
 </style>
