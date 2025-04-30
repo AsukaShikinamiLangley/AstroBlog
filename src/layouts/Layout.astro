@@ -9,16 +9,26 @@ import '@/styles/global.css';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/eva2.svg" />
     <Font cssVariable="--font-matisse-eb" preload />
     <meta name="generator" content={Astro.generator} />
     <ClientRouter />
-    <title>Astro Basics</title>
+    <title>Asuka Nya~</title>
   </head>
   <body>
     <slot />
   </body>
 </html>
+
+<script>
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      document.title = 'Anta Baka?';
+    } else {
+      document.title = 'Asuka Nya~';
+    }
+  });
+</script>
 
 <style is:global>
   html,
