@@ -3,10 +3,11 @@ import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 import vue from '@astrojs/vue';
+import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), mdx(), vue()],
+  integrations: [react(), mdx(), vue(), icon()],
   markdown: {
     shikiConfig: {
       themes: {
