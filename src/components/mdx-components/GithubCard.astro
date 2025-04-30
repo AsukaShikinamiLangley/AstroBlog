@@ -1,29 +1,46 @@
 ---
+import { Icon } from 'astro-icon/components';
+
 const { repo, preview = {} } = Astro.props;
 const { url: previewUrl, aspectRatio = '16/9' } = preview;
 const githubUsername = import.meta.env.PUBLIC_GITHUB_USERNAME;
 const repoAddr = repo.replace('@github', githubUsername);
+const repoLink = `https://github.com/${repoAddr}`;
 const repoData = await fetch(`https://api.github.com/repos/${repoAddr}`).then(res => res.json());
 ---
 
 <div class="github-card w-full rounded-lg border border-gray-200 p-4 flex flex-col gap-2">
-  <div class="flex">
-    <div class="card-title flex items-center gap-2">
+  <div class="flex w-full">
+    <div class="card-title flex items-center gap-2 w-full">
       <img
         src={repoData.owner.avatar_url}
         alt={repoData.owner.login}
         class="my-0! w-10 h-10 rounded-full"
       />
-      <div class="h-12 flex flex-col justify-between">
-        <div class="text-lg font-bold">
-          {(repoAddr || repoData.full_name).split('/').join(' / ')}
+      <div class="h-12 flex flex-col justify-between w-full">
+        <div class="flex justify-between items-center">
+          <div class="text-lg font-bold">
+            {(repoAddr || repoData.full_name).split('/').join(' / ')}
+          </div>
+          <a href={repoLink} target="_blank">
+            <Icon name="octicon:mark-github-16" size={24} />
+          </a>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="text-sm text-gray-500">{repoData.stargazers_count || 0} stars</span>
-          <span class="text-sm text-gray-500">{repoData.forks_count || 0} forks</span>
+        <div class="flex items-center gap-2.5">
+          <div class="flex gap-1 items-center text-xs text-gray-500">
+            <Icon name="octicon:star-16" size={16} />
+            {repoData.stargazers_count || 0}
+          </div>
+          <div class="flex gap-1 items-center text-xs text-gray-500">
+            <Icon name="octicon:repo-forked-16" size={16} />
+            {repoData.forks_count || 0}
+          </div>
           {
             repoData.license && (
-              <span class="text-sm text-gray-500">{repoData.license?.spdx_id}</span>
+              <div class="flex gap-1 items-center text-xs text-gray-500">
+                <Icon name="octicon:law-16" size={16} />
+                {repoData.license?.spdx_id}
+              </div>
             )
           }
         </div>
