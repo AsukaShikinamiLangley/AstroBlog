@@ -10,28 +10,28 @@
     "build:font": "astro build && tsx src/scripts/optimize-fonts.ts"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.2.6",
-    "@astrojs/react": "^4.2.7",
-    "@astrojs/vue": "^5.0.13",
-    "@tailwindcss/vite": "^4.1.4",
-    "astro": "^5.7.10",
+    "@astrojs/mdx": "^4.3.0",
+    "@astrojs/react": "^4.3.0",
+    "@astrojs/vue": "^5.1.0",
+    "@tailwindcss/vite": "^4.1.11",
+    "astro": "^5.11.1",
     "astro-icon": "^1.1.5",
     "html-to-text": "^9.0.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "sharp": "^0.34.1",
-    "tailwindcss": "^4.1.4",
-    "vue": "^3.5.13"
+    "sharp": "^0.34.3",
+    "tailwindcss": "^4.1.11",
+    "vue": "^3.5.17"
   },
   "devDependencies": {
-    "@iconify-json/octicon": "^1.2.5",
+    "@iconify-json/octicon": "^1.2.7",
     "@tailwindcss/typography": "^0.5.16",
     "@types/html-to-text": "^9.0.4",
-    "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2",
-    "fontmin": "^2.0.0",
-    "glob": "^11.0.1",
-    "tsx": "^4.19.3"
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "fontmin": "^2.0.2",
+    "glob": "^11.0.3",
+    "tsx": "^4.20.3"
   },
   "pnpm": {
     "ignoredBuiltDependencies": [
