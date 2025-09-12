@@ -1,17 +1,17 @@
 ---
 import BlogLayout from '@/layouts/BlogLayout.astro';
-import Prose from '@/components/Prose.astro'
-import Pre from '@/components/mdx-components/Pre.astro'
-import GithubCard from '@/components/mdx-components/GithubCard.astro'
-import type { GetStaticPaths } from "astro";
-import { getCollection, render } from "astro:content";
+import Prose from '@/components/Prose.astro';
+import Pre from '@/components/mdx-components/Pre.astro';
+import GithubCardIsland from '@/components/mdx-components/GithubCardIsland.astro';
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection('blog');
-  return posts.map(post => ({
+  return posts.map((post) => ({
     params: { id: post.id },
-    props: { post }
-  }))
+    props: { post },
+  }));
 }) satisfies GetStaticPaths;
 
 const { post } = Astro.props;
@@ -21,12 +21,12 @@ const githubUrl = import.meta.env.PUBLIC_GITHUB_URL;
 
 <BlogLayout>
   <Prose transition:name={`post-${post.id}`}>
-    <h1 transition:name={`post-title-${post.id}`}>{post.data.title}</h1>
+    <div class="item-name text-lg font-bold" transition:name={`post-title-${post.id}`}>{post.data.title}</div>
     <Content
       githubUrl={githubUrl}
       components={{
         pre: Pre,
-        GithubCard: GithubCard
+        GithubCard: GithubCardIsland,
       }}
     />
   </Prose>

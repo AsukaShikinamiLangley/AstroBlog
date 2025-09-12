@@ -1,0 +1,6 @@
+---
+import GithubCard from './GithubCard.tsx';
+const props = Astro.props as any;
+---
+
+<GithubCard client:load {...props} />

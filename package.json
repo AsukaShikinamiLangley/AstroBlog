@@ -13,6 +13,7 @@
     "@astrojs/mdx": "^4.3.4",
     "@astrojs/react": "^4.3.0",
     "@astrojs/vue": "^5.1.0",
+    "@iconify/react": "^6.0.1",
     "@tailwindcss/vite": "^4.1.12",
     "astro": "^5.13.5",
     "astro-icon": "^1.1.5",
