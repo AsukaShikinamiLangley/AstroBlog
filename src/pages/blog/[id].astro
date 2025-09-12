@@ -21,7 +21,9 @@ const githubUrl = import.meta.env.PUBLIC_GITHUB_URL;
 
 <BlogLayout>
   <Prose transition:name={`post-${post.id}`}>
-    <div class="item-name text-lg font-bold" transition:name={`post-title-${post.id}`}>{post.data.title}</div>
+    <div class="item-name text-lg font-bold mb-5 text-black" transition:name={`post-title-${post.id}`}>
+      {post.data.title}
+    </div>
     <Content
       githubUrl={githubUrl}
       components={{

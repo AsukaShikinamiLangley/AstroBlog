@@ -19,7 +19,6 @@ export default function GithubCard({
     fetch(`https://api.github.com/repos/${repoAddr}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setRepoData(data);
       });
   }, []);
