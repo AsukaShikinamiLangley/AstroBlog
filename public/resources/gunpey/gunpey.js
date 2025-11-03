@@ -57,10 +57,8 @@ function generatePointsGrid(m, n) {
 function generateGunpeyGrid(m, n) {
   // m*n的棋盘, 节点为m+1*n+1
   const { path } = generatePointsGrid(m + 1, n + 1);
-  console.log('path: ', path);
   let grid = generate2DArray(m, n, 0);
   for (let i = 0; i <= path.length - 2; i++) {
-    console.log('-> ', path[i], path[i + 1]);
     const [x1, y1] = path[i];
     const [x2, y2] = path[i + 1];
     if (x1 > x2) {
@@ -68,11 +66,28 @@ function generateGunpeyGrid(m, n) {
     } else if (x1 < x2) {
       grid[x1][y1] = 1;
     } else {
-      Math.random() < 0.5 ? (grid[x1 - 1][y1] = 4) : (grid[x1][y1] = 3);
+      if (Math.random() < 0.5) {
+        if (x1 > 0) {
+          grid[x1 - 1][y1] = 4;
+        } else {
+          grid[x1][y1] = 3;
+        }
+      } else {
+        if (x1 < m) {
+          grid[x1][y1] = 3;
+        } else {
+          grid[x1 - 1][y1] = 4;
+        }
+      }
     }
   }
   console.log(grid.map((r) => r.join(' ')).join('\n'));
   console.log('0: space, 1: \\, 2: /, 3: V, 4: ^');
+  console.log('path: ', path);
   return grid;
 }
-generateGunpeyGrid(5, 5);
+function f() {
+  for (let i = 0; i < 20; i++) {
+    generateGunpeyGrid(5, 5);
+  }
+}
