@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
@@ -7,6 +7,9 @@ import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
+  server: {
+    port: 3366,
+  },
   integrations: [react(), mdx(), vue(), icon()],
   markdown: {
     shikiConfig: {
@@ -26,16 +29,18 @@ export default defineConfig({
   experimental: {
     fonts: [
       {
-        provider: 'local',
+        provider: fontProviders.local(),
         name: 'Matisse-EB',
         cssVariable: '--font-matisse-eb',
-        variants: [
-          {
-            style: 'normal',
-            weight: '700',
-            src: ['./src/assets/fonts/FOT-MatissePro-EB.woff2'],
-          },
-        ],
+        options: {
+          variants: [
+            {
+              style: 'normal',
+              weight: '700',
+              src: ['./src/assets/fonts/FOT-MatissePro-EB.woff2'],
+            },
+          ],
+        }
       },
     ],
   },
