@@ -17,7 +17,7 @@
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.3.1",
     "astro-icon": "^1.1.5",
-    "html-to-text": "^9.0.5",
+    "html-to-text": "^10.0.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "sharp": "^0.34.5",
@@ -30,7 +30,7 @@
     "@types/html-to-text": "^9.0.4",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "glob": "^11.1.0",
+    "glob": "^13.0.6",
     "tsx": "^4.21.0"
   },
   "pnpm": {
