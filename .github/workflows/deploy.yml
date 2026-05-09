@@ -27,7 +27,7 @@ jobs:
       run: pnpm install
 
     - name: Build project
-      run: pnpm build
+      run: pnpm build:font
 
     - name: Archive build artifacts
       run: tar -czvf deploy.tar.gz dist
