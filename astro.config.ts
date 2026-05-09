@@ -26,22 +26,20 @@ export default defineConfig({
     // 预获取策略: 'tap' | 'hover' | 'viewport' | 'load'
     defaultStrategy: 'load',
   },
-  experimental: {
-    fonts: [
-      {
-        provider: fontProviders.local(),
-        name: 'Matisse-EB',
-        cssVariable: '--font-matisse-eb',
-        options: {
-          variants: [
-            {
-              style: 'normal',
-              weight: '700',
-              src: ['./src/assets/fonts/FOT-MatissePro-EB.woff2'],
-            },
-          ],
-        }
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: 'Matisse-EB',
+      cssVariable: '--font-matisse-eb',
+      options: {
+        variants: [
+          {
+            style: 'normal',
+            weight: '700',
+            src: ['./src/assets/fonts/FOT-MatissePro-EB.woff2'],
+          },
+        ],
       },
-    ],
-  },
+    },
+  ],
 });
