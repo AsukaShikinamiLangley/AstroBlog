@@ -5,26 +5,34 @@ on:
     branches:
       - master
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
 
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v6
       with:
-        node-version: '18'  # 根据项目中的 .tool-versions 或 .nvmrc 调整版本号
+        node-version: '24'
+        cache: pnpm
+        cache-dependency-path: pnpm-lock.yaml
 
-    - name: Install pnpm # 安装pnpm
-      uses: pnpm/action-setup@v4
-      with:
-        version: 10
+    - name: Enable pnpm
+      run: |
+        corepack enable
+        corepack prepare pnpm@10 --activate
 
     - name: Install dependencies
       run: pnpm install
+
+    - name: Install font subset dependencies
+      run: python3 -m pip install fonttools brotli
 
     - name: Build project
       run: pnpm build:font

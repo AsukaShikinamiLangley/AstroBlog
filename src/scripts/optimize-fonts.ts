@@ -1,23 +1,14 @@
 import fs from 'fs/promises';
 import path from 'path';
-import Fontmin from 'fontmin';
+import { spawn } from 'child_process';
 import { glob } from 'glob';
 import { convert } from 'html-to-text';
 
 const DIST_DIR = 'dist';
 const TEXT_OUTPUT_FILE = 'dist/fonts/all.txt';
-const SOURCE_FONT_GLOB = 'src/assets/fonts/*.{ttf,otf}';
+const SOURCE_FONT_GLOB = 'src/assets/fonts/*.woff2';
 const DIST_FONT_GLOB = 'dist/_astro/fonts/*.woff2';
 const TEMP_OUTPUT_DIR = 'dist/fonts/.tmp';
-const EXTRA_SAFE_CHARS = [
-  ' ',
-  '\n',
-  '\t',
-  '0123456789',
-  'abcdefghijklmnopqrstuvwxyz',
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-  '.,:;!?()[]{}<>/\\|+-_=*#@$%^&~`\'"',
-].join('');
 
 function collectCharacters(text: string, textSet: Set<string>) {
   for (const char of text) {
@@ -46,32 +37,60 @@ function formatBytes(bytes: number) {
   return `${(kb / 1024).toFixed(2)} MB`;
 }
 
-async function runFontmin(fontFile: string, text: string) {
+async function runFontSubset(fontFile: string, textFile: string) {
   await fs.rm(TEMP_OUTPUT_DIR, { recursive: true, force: true });
   await fs.mkdir(TEMP_OUTPUT_DIR, { recursive: true });
 
-  const fontmin = new Fontmin()
-    .src(fontFile)
-    .use(Fontmin.otf2ttf())
-    .use(Fontmin.glyph({ text }))
-    .use(Fontmin.ttf2woff2())
-    .dest(TEMP_OUTPUT_DIR);
-
-  await new Promise((resolve, reject) => {
-    fontmin.run((err, files) => {
-      if (err) reject(err);
-      else resolve(files);
-    });
-  });
-
-  const generatedFiles = await glob(`${TEMP_OUTPUT_DIR}/*.woff2`);
-  const generatedFont = generatedFiles[0];
-
-  if (!generatedFont) {
-    throw new Error(`字体 ${path.basename(fontFile)} 未生成 woff2 文件`);
-  }
+  const generatedFont = path.join(TEMP_OUTPUT_DIR, path.basename(fontFile));
+  await runPythonFontSubset(fontFile, generatedFont, textFile);
 
   return generatedFont;
+}
+
+async function runPythonFontSubset(inputFile: string, outputFile: string, textFile: string) {
+  await ensureFontToolsInstalled();
+
+  const args = [
+    '-m',
+    'fontTools.subset',
+    inputFile,
+    `--text-file=${textFile}`,
+    `--output-file=${outputFile}`,
+    '--flavor=woff2',
+    '--layout-features=*',
+    '--name-IDs=*',
+    '--name-legacy',
+    '--name-languages=*',
+  ];
+
+  await runCommand('python3', args);
+}
+
+async function ensureFontToolsInstalled() {
+  try {
+    await runCommand('python3', ['-c', 'import fontTools.subset, brotli'], { silent: true });
+  }
+  catch {
+    throw new Error('缺少字体精简依赖，请先安装: python3 -m pip install fonttools brotli');
+  }
+}
+
+async function runCommand(command: string, args: string[], options: { silent?: boolean } = {}) {
+  await new Promise<void>((resolve, reject) => {
+    const child = spawn(command, args, {
+      stdio: options.silent ? 'ignore' : 'inherit',
+    });
+
+    child.on('error', reject);
+    child.on('close', (code) => {
+      if (code === 0) {
+        resolve();
+        return;
+      }
+
+      reject(new Error(`${command} ${args.join(' ')} 执行失败，退出码: ${code}`));
+    });
+  });
 }
 
 async function optimizeFonts() {
@@ -88,8 +107,6 @@ async function optimizeFonts() {
     const text = convert(content);
     collectCharacters(text, textSet);
   }
-
-  collectCharacters(EXTRA_SAFE_CHARS, textSet);
 
   const text = Array.from(textSet).join('');
   console.log(`收集到 ${textSet.size} 个独特字符`);
@@ -115,7 +132,7 @@ async function optimizeFonts() {
   const sourceFont = sourceFontFiles[0];
   const distFont = distFontFiles[0];
   const originalSize = await getFileSize(distFont);
-  const generatedFont = await runFontmin(sourceFont, text);
+  const generatedFont = await runFontSubset(sourceFont, TEXT_OUTPUT_FILE);
 
   await fs.copyFile(generatedFont, distFont);
 
