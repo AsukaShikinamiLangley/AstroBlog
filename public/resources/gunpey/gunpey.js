@@ -75,8 +75,7 @@ function generatePath(startNodeRow, m, n, used) {
   function dfs(nr, nc) {
     if (nc === n) return true;
 
-    const moves = getNeighborMoves(nr, nc, m, n)
-      .filter(mv => mv.nc === nc + 1 && !used[mv.cellR][mv.cellC]);
+    const moves = getNeighborMoves(nr, nc, m, n).filter((mv) => mv.nc === nc + 1 && !used[mv.cellR][mv.cellC]);
     shuffle(moves);
 
     for (const mv of moves) {
@@ -96,9 +95,7 @@ function generatePath(startNodeRow, m, n, used) {
 function generateLoop(m, n, used, nodeSet) {
   // 从已有图的某个非边界节点出发，走到已有图的任意节点（包括自身）
   // 中间节点度数>=2即可，不要求偶数
-  const nodeList = [...nodeSet]
-    .map(k => k.split(',').map(Number))
-    .filter(([, c]) => c > 0 && c < n);
+  const nodeList = [...nodeSet].map((k) => k.split(',').map(Number)).filter(([, c]) => c > 0 && c < n);
   shuffle(nodeList);
 
   for (const [startR, startC] of nodeList) {
@@ -119,8 +116,9 @@ function dfsLoop(nr, nc, m, n, used, nodeSet, path, visited, depth) {
   if (depth >= 2 && nodeSet.has(nodeKey(nr, nc))) return true;
   if (depth >= 12) return false;
 
-  const moves = getNeighborMoves(nr, nc, m, n)
-    .filter(mv => !used[mv.cellR][mv.cellC] && !visited.has(`${mv.cellR},${mv.cellC}`));
+  const moves = getNeighborMoves(nr, nc, m, n).filter(
+    (mv) => !used[mv.cellR][mv.cellC] && !visited.has(`${mv.cellR},${mv.cellC}`),
+  );
   shuffle(moves);
 
   for (const mv of moves) {
@@ -164,7 +162,7 @@ export function generateGunpey(m, n, options = {}) {
       let pathGenerated = false;
       for (let startIdx = 0; startIdx < availableStarts.length && !pathGenerated; startIdx++) {
         const startRow = availableStarts[startIdx];
-        const savedUsed = used.map(row => [...row]);
+        const savedUsed = used.map((row) => [...row]);
 
         const pathMoves = generatePath(startRow, m, n, used);
         if (pathMoves) {
@@ -244,7 +242,7 @@ function isConnected(grid, m, n) {
   visited.add(queue[0]);
   while (queue.length > 0) {
     const curr = queue.shift();
-    for (const neighbor of (adj.get(curr) || [])) {
+    for (const neighbor of adj.get(curr) || []) {
       if (!visited.has(neighbor)) {
         visited.add(neighbor);
         queue.push(neighbor);
@@ -256,11 +254,28 @@ function isConnected(grid, m, n) {
 
 function getCellEndpoints(r, c, type) {
   switch (type) {
-    case 1: return [[r, c], [r + 1, c + 1]];
-    case 2: return [[r + 1, c], [r, c + 1]];
-    case 3: return [[r, c], [r, c + 1]];
-    case 4: return [[r + 1, c], [r + 1, c + 1]];
-    default: return [];
+    case 1:
+      return [
+        [r, c],
+        [r + 1, c + 1],
+      ];
+    case 2:
+      return [
+        [r + 1, c],
+        [r, c + 1],
+      ];
+    case 3:
+      return [
+        [r, c],
+        [r, c + 1],
+      ];
+    case 4:
+      return [
+        [r + 1, c],
+        [r + 1, c + 1],
+      ];
+    default:
+      return [];
   }
 }
 
@@ -297,3 +312,6 @@ function generateFallback(m, n) {
   }
   return grid;
 }
+
+const res = generateGunpey(10, 10);
+console.log(res);
